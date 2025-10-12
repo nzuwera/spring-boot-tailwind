@@ -15,8 +15,8 @@ To follow along you will need to have node and npm installed. To check if they a
 running you can run the following commands:
 
 ```shell
-node -v # v20.2.0
-npm -v # 9.8.1
+node -v # v24.10.0
+npm -v # 11.6.1
 ```
 
 You can head over to https://start.spring.io and create a new project with the following dependenices or follow [this link](https://start.spring.io/#!type=maven-project&language=java&platformVersion=3.3.1&packaging=jar&jvmVersion=22&groupId=dev.danvega&artifactId=tailwind&name=tailwind&description=Demo%20project%20for%20Spring%20Boot&packageName=dev.danvega.tailwind&dependencies=web,thymeleaf,devtools).
@@ -153,7 +153,7 @@ Next setup the plugin to install node and npm, run `npm install` and `npm run bu
 <plugin>
   <groupId>com.github.eirslett</groupId>
   <artifactId>frontend-maven-plugin</artifactId>
-  <version>1.15.0</version>
+  <version>1.15.4</version>
   <executions>
 
       <execution>
@@ -208,8 +208,4 @@ To verify that this works go change something in `/src/main/resources/templates/
 Visit http://localhost:8080/ and you should now see a blue background.
 
 ## Resources
-
-- [Tailwind CSS Docs](https://tailwindcss.com/docs)
-- [Spring Security Docs](https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/form.html)
-- [Maciej Walkowiak](https://maciejwalkowiak.com/blog/spring-boot-thymeleaf-tailwindcss/)
-- [Dan Vega](https://www.youtube.com/watch?v=6_6AIzxPXvQ&t=322s)
+- [Dan Vega - Youtube](https://www.youtube.com/watch?v=6_6AIzxPXvQ&t=322s)
