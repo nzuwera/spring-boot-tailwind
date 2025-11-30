@@ -25,27 +25,39 @@ self.addEventListener("activate", (event) => {
 // Fetch event
 self.addEventListener("fetch", (event) => {
     const request = event.request;
+    const url = new URL(request.url);
 
-    // Handle navigation (HTML page) requests
+    // 1. Handle navigation (HTML page) requests
     if (request.mode === "navigate") {
         event.respondWith(
-            fetch(request)
-                .catch(() => {
-                    return caches.match(OFFLINE_URL);
-                })
+            fetch(request).catch(() => caches.match(OFFLINE_URL))
         );
         return;
     }
 
-    // For other requests (CSS/JS/images), try cache first, then network
+    // 2. Handle Actuator endpoints as "backend API"
+    //    Adjust the prefix if your actuator base path is customized.
+    const isSameOrigin = url.origin === self.location.origin;
+    const isActuatorRequest = isSameOrigin && url.pathname.startsWith("/actuator");
+
+    if (isActuatorRequest) {
+        event.respondWith(
+            fetch(request).catch(() => {
+                // Backend (Actuator) not reachable → redirect to the offline page
+                return Response.redirect(OFFLINE_URL, 302);
+            })
+        );
+        return;
+    }
+
+    // 3. Other requests (CSS/JS/images): cache-first, then network
     event.respondWith(
         caches.match(request).then((cachedResponse) => {
             if (cachedResponse) {
                 return cachedResponse;
             }
             return fetch(request).catch(() => {
-                // As a last resort for non-navigation, just fail silently
-                // (You could add specific fallbacks for images, etc.)
+                // No special fallback for non-HTML, non-actuator requests
             });
         })
     );
